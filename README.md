@@ -11,6 +11,3 @@ OnlineStatistics
 - [Algorithms](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance)
 
 ## TODO
-- KdeQuantizer
-- add license
-- add license for okde-java
