@@ -1,0 +1,4 @@
+rootProject.name = 'rutils'
+
+include ':okde-java'
+project(':okde-java').projectDir = new File(settingsDir, 'libs/okde-java')
