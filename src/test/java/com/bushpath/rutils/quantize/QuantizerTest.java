@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 public class QuantizerTest {
     @Test
     public void binCheck() {
-        Quantizer quantizer = new Quantizer(new double[]{0,2,4,6,8,10});
+        Quantizer quantizer = new Quantizer(new float[]{0,2,4,6,8,10});
         try {
             assertEquals(quantizer.evaluate(0), 0);
             assertEquals(quantizer.evaluate(1), 0);
