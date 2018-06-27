@@ -8,14 +8,18 @@ public class CsvReader extends Reader {
     protected BufferedReader in;
     protected int[] indexes;
 
-    public CsvReader(String file, Collection<String> features) throws Exception {
+    public CsvReader(String file, Collection<String> features, String[] header) throws Exception {
         // initialize BufferedReader
         this.in = new BufferedReader(new FileReader(file));
 
         // initialize indexes
         this.indexes = new int[features.size()];
 
-        String[] header = this.in.readLine().split(",");
+        // parse header
+        if (header == null || header.length == 0) {
+            header = this.in.readLine().split(",");
+        }
+
         int featureIndex = 0;
         for (String feature : features) {
             // find index of feature in header

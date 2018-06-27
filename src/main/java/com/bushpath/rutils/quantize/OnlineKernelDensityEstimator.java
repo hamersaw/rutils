@@ -82,6 +82,7 @@ public class OnlineKernelDensityEstimator implements UnivariateFunction {
         double startValue;
         double endValue = minimum; // initialize to minimum for first loop
         for (int i=0; i<boundaries.length; i++) {
+            System.out.println("computing boundary " + i);
             // initialize start and end values
             startValue = endValue;
             endValue = startValue + stepValue;
