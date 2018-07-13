@@ -45,4 +45,19 @@ public class OrExpression<T extends Comparable<T>> extends Expression<T>
 
         return orExpression;
     }
+
+    @Override
+    public String toString(int depth) {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i=0; i<depth; i++) {
+            stringBuilder.append("\t");
+        }
+
+        stringBuilder.append("OrExpression");
+        for (Expression expression : this.expressions) {
+            stringBuilder.append(expression.toString(depth + 1));
+        }
+
+        return stringBuilder.toString();
+    }
 }

@@ -23,4 +23,15 @@ public class GreaterExpression<T extends Comparable<T>> extends Expression<T>
         byte value = quantizer.evaluate((Float) this.value);
         return new GreaterExpression<Byte>(value);
     }
+
+    @Override
+    public String toString(int depth) {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i=0; i<depth; i++) {
+            stringBuilder.append("\t");
+        }
+
+        stringBuilder.append("GreaterExpression (" + this.value + ")");
+        return stringBuilder.toString();
+    }
 }

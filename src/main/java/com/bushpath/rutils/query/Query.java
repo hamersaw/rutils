@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Query implements Serializable {
-    protected Map<String, Expression> expressions;
+    protected HashMap<String, Expression> expressions;
 
-    public Query(Map<String, Expression> expressions) {
+    public Query(HashMap<String, Expression> expressions) {
         this.expressions = expressions;
     }
 
@@ -31,7 +31,7 @@ public class Query implements Serializable {
     }
 
     public Query bin(Map<String, float[]> binBoundaries) throws Exception {
-        Map<String, Expression> expressions = new HashMap();
+        HashMap<String, Expression> expressions = new HashMap();
         for (Map.Entry<String, Expression> entry : this.expressions.entrySet()) {
             // bin expression
             Quantizer quantizer = new Quantizer(binBoundaries.get(entry.getKey()));
@@ -42,5 +42,16 @@ public class Query implements Serializable {
         }
 
         return new Query(expressions);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, Expression> entry : this.expressions.entrySet()) {
+            stringBuilder.append("----" + entry.getKey() + "----");
+            stringBuilder.append(entry.getValue().toString());
+        }
+
+        return stringBuilder.toString();
     }
 }

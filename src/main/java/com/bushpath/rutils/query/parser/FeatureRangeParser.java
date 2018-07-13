@@ -8,12 +8,11 @@ import com.bushpath.rutils.query.Query;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class FeatureRangeParser extends Parser {
     public Query evaluate(String... arguments) throws Exception {
         // initialize expressions
-        Map<String, Expression> expressions = new HashMap();
+        HashMap<String, Expression> expressions = new HashMap();
 
         // parse arguments
         for (String argument : arguments) {

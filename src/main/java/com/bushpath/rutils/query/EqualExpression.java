@@ -23,4 +23,15 @@ public class EqualExpression<T extends Comparable<T>> extends Expression<T>
         byte value = quantizer.evaluate((Float) this.value);
         return new EqualExpression<Byte>(value);
     }
+
+    @Override
+    public String toString(int depth) {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i=0; i<depth; i++) {
+            stringBuilder.append("\t");
+        }
+
+        stringBuilder.append("EqualExpression (" + this.value + ")");
+        return stringBuilder.toString();
+    }
 }

@@ -38,11 +38,26 @@ public class AndExpression<T extends Comparable<T>> extends Expression<T>
 
     @Override
     public Expression bin(Quantizer quantizer) throws Exception {
-        OrExpression orExpression = new OrExpression();
+        AndExpression andExpression = new AndExpression();
         for (Expression expression : this.expressions) {
-            orExpression.addExpression(expression.bin(quantizer));
+            andExpression.addExpression(expression.bin(quantizer));
         }
 
-        return orExpression;
+        return andExpression;
+    }
+
+    @Override
+    public String toString(int depth) {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i=0; i<depth; i++) {
+            stringBuilder.append("\t");
+        }
+
+        stringBuilder.append("AndExpression");
+        for (Expression expression : this.expressions) {
+            stringBuilder.append(expression.toString(depth + 1));
+        }
+
+        return stringBuilder.toString();
     }
 }
