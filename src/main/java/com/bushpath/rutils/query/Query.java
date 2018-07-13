@@ -1,27 +1,46 @@
 package com.bushpath.rutils.query;
 
-import java.lang.Comparable;
-import java.util.HashSet;
-import java.util.Set;
+import com.bushpath.rutils.quantize.Quantizer;
 
-public class Query<T extends Comparable<T>> {
-    protected Set<Expression<T>> expressions;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Query() {
-        this.expressions = new HashSet();
+public class Query implements Serializable {
+    protected Map<String, Expression> expressions;
+
+    public Query(Map<String, Expression> expressions) {
+        this.expressions = expressions;
     }
 
-    public void addExpression(Expression<T> expression) {
-        this.expressions.add(expression);
+    public boolean containsFeature(String feature) {
+        return this.expressions.containsKey(feature);
     }
 
-    public boolean evaluate(T value) {
-        for (Expression expression : this.expressions) {
-            if (!expression.evaluate(value)) {
-                return false;
-            }
+    public Collection<String> getFeatures() {
+        return this.expressions.keySet();
+    }
+
+    public Expression getExpression(String feature) {
+        return this.expressions.get(feature);
+    }
+
+    public int featureCount() {
+        return this.expressions.size();
+    }
+
+    public Query bin(Map<String, float[]> binBoundaries) throws Exception {
+        Map<String, Expression> expressions = new HashMap();
+        for (Map.Entry<String, Expression> entry : this.expressions.entrySet()) {
+            // bin expression
+            Quantizer quantizer = new Quantizer(binBoundaries.get(entry.getKey()));
+            Expression expression = entry.getValue().bin(quantizer);
+
+            // add to new expressions
+            expressions.put(entry.getKey(), expression);
         }
 
-        return true;
+        return new Query(expressions);
     }
 }

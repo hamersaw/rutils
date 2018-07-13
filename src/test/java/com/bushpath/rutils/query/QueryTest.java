@@ -1,5 +1,8 @@
 package com.bushpath.rutils.query;
 
+import com.bushpath.rutils.query.parser.FeatureRangeParser;
+import com.bushpath.rutils.query.parser.Parser;
+
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -36,5 +39,44 @@ public class QueryTest {
         assertEquals(true, lessEqualExpression.evaluate(-1.0));
         assertEquals(true, lessEqualExpression.evaluate(0.0));
         assertEquals(false, lessEqualExpression.evaluate(1.0));
+
+        // AndExpression
+        AndExpression<Double> andExpression =
+            new AndExpression(greaterEqualExpression, lessEqualExpression);
+        assertEquals(false, andExpression.evaluate(-1.0));
+        assertEquals(true, andExpression.evaluate(0.0));
+        assertEquals(false, andExpression.evaluate(1.0));
+
+        // OrExpression
+        OrExpression<Double> orExpression =
+            new OrExpression(greaterExpression, lessExpression);
+        assertEquals(true, orExpression.evaluate(-1.0));
+        assertEquals(false, orExpression.evaluate(0.0));
+        assertEquals(true, orExpression.evaluate(1.0));
+    }
+
+    @Test
+    public void featureRangeParserTest() {
+        try {
+            Parser parser = new FeatureRangeParser();
+            Query query = parser.evaluate("f0:0..10", "f1:..10", "f2:0..");
+
+            assertEquals(true, query.getExpression("f0").evaluate(10.0f));
+            assertEquals(true, query.getExpression("f0").evaluate(0.0f));
+            assertEquals(false, query.getExpression("f0").evaluate(11.0f));
+            assertEquals(false, query.getExpression("f0").evaluate(-1.0f));
+
+            assertEquals(true, query.getExpression("f1").evaluate(10.0f));
+            assertEquals(true, query.getExpression("f1").evaluate(0.0f));
+            assertEquals(false, query.getExpression("f1").evaluate(11.0f));
+            assertEquals(true, query.getExpression("f1").evaluate(-1.0f));
+
+            assertEquals(true, query.getExpression("f2").evaluate(10.0f));
+            assertEquals(true, query.getExpression("f2").evaluate(0.0f));
+            assertEquals(true, query.getExpression("f2").evaluate(11.0f));
+            assertEquals(false, query.getExpression("f2").evaluate(-1.0f));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
