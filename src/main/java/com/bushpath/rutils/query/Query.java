@@ -16,6 +16,14 @@ public class Query implements Serializable {
         this.expressions = expressions;
     }
 
+    public void setEntity(String entity) {
+        this.entity = entity;
+    }
+
+    public String getEntity() {
+        return this.entity;
+    }
+
     public boolean containsFeature(String feature) {
         return this.expressions.containsKey(feature);
     }
@@ -48,10 +56,10 @@ public class Query implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("query: " + this.entity + "\n");
         for (Map.Entry<String, Expression> entry : this.expressions.entrySet()) {
-            stringBuilder.append("----" + entry.getKey() + "----");
-            stringBuilder.append(entry.getValue().toString());
+            stringBuilder.append(entry.getKey() + ":");
+            stringBuilder.append(entry.getValue().toString(1));
         }
 
         return stringBuilder.toString();

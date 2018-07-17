@@ -87,6 +87,11 @@ public class QueryTest {
             Parser parser = new SqlParser();
             Query query =
                 parser.evaluate("select * from sketchId where f0 >= 0 and f0 <= 10");
+
+            assertEquals(true, query.getExpression("f0").evaluate(10.0f));
+            assertEquals(true, query.getExpression("f0").evaluate(0.0f));
+            assertEquals(false, query.getExpression("f0").evaluate(11.0f));
+            assertEquals(false, query.getExpression("f0").evaluate(-1.0f));
         } catch (Exception e) {
             e.printStackTrace();
         }
