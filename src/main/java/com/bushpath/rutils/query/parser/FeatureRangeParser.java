@@ -53,6 +53,6 @@ public class FeatureRangeParser extends Parser {
             expressions.put(feature, expression);
         }
 
-        return new Query(expressions);
+        return new Query(null, expressions);
     }
 }

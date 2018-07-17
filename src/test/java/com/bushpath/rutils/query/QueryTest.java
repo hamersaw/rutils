@@ -2,6 +2,7 @@ package com.bushpath.rutils.query;
 
 import com.bushpath.rutils.query.parser.FeatureRangeParser;
 import com.bushpath.rutils.query.parser.Parser;
+import com.bushpath.rutils.query.parser.SqlParser;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -75,6 +76,17 @@ public class QueryTest {
             assertEquals(true, query.getExpression("f2").evaluate(0.0f));
             assertEquals(true, query.getExpression("f2").evaluate(11.0f));
             assertEquals(false, query.getExpression("f2").evaluate(-1.0f));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void sqlParserTest() {
+        try {
+            Parser parser = new SqlParser();
+            Query query =
+                parser.evaluate("select * from sketchId where f0 >= 0 and f0 <= 10");
         } catch (Exception e) {
             e.printStackTrace();
         }

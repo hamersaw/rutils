@@ -8,9 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Query implements Serializable {
+    protected String entity;
     protected HashMap<String, Expression> expressions;
 
-    public Query(HashMap<String, Expression> expressions) {
+    public Query(String entity, HashMap<String, Expression> expressions) {
+        this.entity = entity;
         this.expressions = expressions;
     }
 
@@ -41,7 +43,7 @@ public class Query implements Serializable {
             expressions.put(entry.getKey(), expression);
         }
 
-        return new Query(expressions);
+        return new Query(this.entity, expressions);
     }
 
     @Override

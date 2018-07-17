@@ -11,3 +11,4 @@ OnlineStatistics
 - [Algorithms](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance)
 
 ## TODO
+- support 'or' operator in SqlParser
