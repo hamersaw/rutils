@@ -14,6 +14,11 @@ public class FeatureRangeParser extends Parser {
         // initialize expressions
         HashMap<String, Expression> expressions = new HashMap();
 
+        // if arguments is null -> return empty query
+        if (arguments == null) {
+            return new Query(null, expressions);
+        }
+
         // parse arguments
         for (String argument : arguments) {
             // parse feature
