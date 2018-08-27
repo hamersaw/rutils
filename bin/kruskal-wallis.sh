@@ -50,7 +50,7 @@ do
     xsv select $i $1 | awk '{print "1," $0}' >> tmp.csv
     xsv select $i $2 | awk '{print "2," $0}' >> tmp.csv
 
-    RESULT=`Rscript ../r/kruskal-wallis.r | grep "Kruskal-Wallis"`
+    RESULT=`Rscript kruskal-wallis.r | grep "Kruskal-Wallis"`
     echo $RESULT | awk '{print "chi-squared: " $8 " p-value: " $14}' 
 done
 

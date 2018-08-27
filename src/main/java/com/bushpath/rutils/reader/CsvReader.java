@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Collection;
 
-public class CsvReader extends Reader {
+public class CsvReader extends Reader<double[]> {
     protected BufferedReader in;
     protected String[] features;
     protected int[] indices;

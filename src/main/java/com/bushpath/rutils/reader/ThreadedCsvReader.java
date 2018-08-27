@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class ThreadedCsvReader extends Reader {
+public class ThreadedCsvReader extends Reader<double[]> {
     protected BufferedReader in;
     protected String[] header;
     protected BlockingQueue<String> stringQueue;
