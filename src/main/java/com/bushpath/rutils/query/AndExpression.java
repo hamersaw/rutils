@@ -1,7 +1,5 @@
 package com.bushpath.rutils.query;
 
-import com.bushpath.rutils.quantize.Quantizer;
-
 import java.io.Serializable;
 import java.lang.Comparable;
 import java.util.HashSet;
@@ -37,13 +35,14 @@ public class AndExpression<T extends Comparable<T>> extends Expression<T>
     }
 
     @Override
-    public Expression bin(Quantizer quantizer) throws Exception {
-        AndExpression andExpression = new AndExpression();
+    public boolean evaluateBin(T lowerBound, T upperBound) {
         for (Expression expression : this.expressions) {
-            andExpression.addExpression(expression.bin(quantizer));
+            if (!expression.evaluateBin(lowerBound, upperBound)) {
+                return false;
+            }
         }
 
-        return andExpression;
+        return true;
     }
 
     @Override

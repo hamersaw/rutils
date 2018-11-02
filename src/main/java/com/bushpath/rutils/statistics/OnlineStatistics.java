@@ -5,29 +5,29 @@ import java.io.Serializable;
 public class OnlineStatistics implements Serializable {
     protected long count;
     protected int dimensionality;
-    protected double[] minimums;
-    protected double[] maximums;
-    protected double[] means;
-    protected double[] m2;
+    protected float[] minimums;
+    protected float[] maximums;
+    protected float[] means;
+    protected float[] m2;
 
     public OnlineStatistics() {
         this.count = 0;
     }
 
-    public void update(double[] data) throws Exception {
+    public void update(float[] data) throws Exception {
         if (this.count == 0) {
             // initialize
             this.dimensionality = data.length;
-            this.minimums = new double[this.dimensionality];
-            this.maximums = new double[this.dimensionality];
-            this.means = new double[this.dimensionality];
-            this.m2 = new double[this.dimensionality];
+            this.minimums = new float[this.dimensionality];
+            this.maximums = new float[this.dimensionality];
+            this.means = new float[this.dimensionality];
+            this.m2 = new float[this.dimensionality];
 
             for (int i=0; i<this.dimensionality; i++) {
-                this.minimums[i] = Double.MAX_VALUE;
-                this.maximums[i] = Double.MIN_VALUE;
-                this.means[i] = 0.0;
-                this.m2[i] = 0.0;
+                this.minimums[i] = Float.MAX_VALUE;
+                this.maximums[i] = Float.MIN_VALUE;
+                this.means[i] = 0.0f;
+                this.m2[i] = 0.0f;
             }
         }
 
@@ -51,9 +51,9 @@ public class OnlineStatistics implements Serializable {
             }
 
             // update mean
-            double delta = data[i] - this.means[i];
+            float delta = data[i] - this.means[i];
             this.means[i] += delta / this.count;
-            double deltaTwo = data[i] - this.means[i];
+            float deltaTwo = data[i] - this.means[i];
             this.m2[i] += delta * deltaTwo;
         }
     }
@@ -93,7 +93,7 @@ public class OnlineStatistics implements Serializable {
             }
 
             // update mean
-            double delta = this.means[i] - statistics.means[i];
+            float delta = this.means[i] - statistics.means[i];
             this.means[i] = ((this.means[i] * this.count) + (statistics.means[i] * statistics.count)) / (this.count + statistics.count);
 
             // update m2
@@ -112,21 +112,21 @@ public class OnlineStatistics implements Serializable {
         return this.dimensionality;
     }
 
-    public double[] getMinimums() {
+    public float[] getMinimums() {
         return this.minimums;
     }
 
-    public double[] getMaximums() {
+    public float[] getMaximums() {
         return this.maximums;
     }
 
-    public double[] getMeans() {
+    public float[] getMeans() {
         return this.means;
     }
 
-    public double[] getVariances() {
+    public float[] getVariances() {
         // compute covariance according to online algorithm
-        double[] variances = new double[this.dimensionality];
+        float[] variances = new float[this.dimensionality];
         for (int i=0; i<this.dimensionality; i++) {
             variances[i] = this.m2[i] / this.count;
         }

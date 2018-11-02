@@ -111,7 +111,11 @@ public class ThreadedCsvReader extends Reader<double[]> {
                     String[] fields = line.split(",");
                     double[] record = new double[fields.length];
                     for (int i=0; i<fields.length; i++) {
-                        record[i] = Double.parseDouble(fields[i]);
+                        try {
+                            record[i] = Double.parseDouble(fields[i]);
+                        } catch (NumberFormatException e) {
+                            record[i] = 0;
+                        }
                     }
 
                     while (!recordQueue.offer(record)) {}
