@@ -2,6 +2,10 @@ package com.bushpath.rutils.query;
 
 import com.bushpath.rutils.quantize.Quantizer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,7 +16,8 @@ public class Query implements Serializable {
     protected String entity;
     protected HashMap<String, Expression> expressions;
 
-    public Query(String entity, HashMap<String, Expression> expressions) {
+    public Query(String entity,
+            HashMap<String, Expression> expressions) {
         this.entity = entity;
         this.expressions = expressions;
     }
@@ -39,6 +44,25 @@ public class Query implements Serializable {
 
     public int featureCount() {
         return this.expressions.size();
+    }
+
+	public static Query fromInputStream(InputStream in)
+		    throws Exception {
+        ObjectInputStream objectIn = new ObjectInputStream(in);
+        Query query = (Query) objectIn.readObject();
+        objectIn.close();
+
+        return query;
+	}
+
+    public byte[] toByteArray() throws Exception {
+		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		ObjectOutputStream objectOut = new ObjectOutputStream(byteOut);
+		objectOut.writeObject(this);
+		objectOut.close();
+		byteOut.close();
+	
+		return byteOut.toByteArray();
     }
 
     @Override
