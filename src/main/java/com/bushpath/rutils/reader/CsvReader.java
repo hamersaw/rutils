@@ -54,6 +54,11 @@ public class CsvReader extends Reader<double[]> {
     }
 
     @Override
+    public String[] getHeader() {
+        return this.features;
+    }
+
+    @Override
     public double[] next() throws Exception {
         // read line
         String line = this.in.readLine();

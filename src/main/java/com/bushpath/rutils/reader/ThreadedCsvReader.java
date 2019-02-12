@@ -6,11 +6,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class ThreadedCsvReader extends Reader<double[]> {
+public class ThreadedCsvReader extends Reader<float[]> {
     protected BufferedReader in;
     protected String[] header;
     protected BlockingQueue<String> stringQueue;
-    protected BlockingQueue<double[]> recordQueue;
+    protected BlockingQueue<float[]> recordQueue;
     protected LineReader lineReader;
     protected Worker[] workers;
 
@@ -33,14 +33,15 @@ public class ThreadedCsvReader extends Reader<double[]> {
         this.lineReader.start();
     }
 
+    @Override
     public String[] getHeader() {
         return this.header;
     }
 
     @Override
-    public double[] next() throws Exception {
+    public float[] next() throws Exception {
         while (true) {
-            double[] record = recordQueue.poll(50, TimeUnit.MILLISECONDS);
+            float[] record = recordQueue.poll(50, TimeUnit.MILLISECONDS);
             if (record != null) {
                 return record;
             }
@@ -102,17 +103,18 @@ public class ThreadedCsvReader extends Reader<double[]> {
             while (!stringQueue.isEmpty() || !this.shutdown) {
                 try {
                     // read next
-                    String line = stringQueue.poll(50, TimeUnit.MILLISECONDS);
+                    String line =
+                        stringQueue.poll(50, TimeUnit.MILLISECONDS);
                     if (line == null) {
                         continue;
                     }
 
                     // parse record
                     String[] fields = line.split(",");
-                    double[] record = new double[fields.length];
+                    float[] record = new float[fields.length];
                     for (int i=0; i<fields.length; i++) {
                         try {
-                            record[i] = Double.parseDouble(fields[i]);
+                            record[i] = Float.parseFloat(fields[i]);
                         } catch (NumberFormatException e) {
                             record[i] = 0;
                         }

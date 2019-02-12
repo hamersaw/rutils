@@ -34,6 +34,11 @@ public class NoaaReader extends Reader<NoaaRecord> {
     }
 
     @Override
+    public String[] getHeader() {
+        return null; // TODO
+    }
+
+    @Override
     public NoaaRecord next() throws Exception {
         while (true) {
             NoaaRecord record = recordQueue.poll(50, TimeUnit.MILLISECONDS);
