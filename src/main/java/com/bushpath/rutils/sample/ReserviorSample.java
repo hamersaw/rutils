@@ -6,18 +6,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReserviorSample {
     protected Random random;
-    protected double[][] data;
+    protected float[][] data;
     protected int count;
     protected ReadWriteLock lock;
 
     public ReserviorSample(int count) {
         this.random = new Random(System.nanoTime());
-        this.data = new double[count][];
+        this.data = new float[count][];
         this.count = 0;
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void update(double[] d) throws Exception {
+    public void update(float[] d) throws Exception {
         this.lock.writeLock().lock();
         try {
             if (this.count < data.length) {
@@ -37,7 +37,7 @@ public class ReserviorSample {
         }
     }
 
-    public double[][] getData() {
+    public float[][] getData() {
         this.lock.readLock().lock();
         try {
             return this.data;
